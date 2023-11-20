@@ -1,17 +1,19 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git"
-SCRIPT_COMMIT="e96d278bfc514f290b60c9e924fabc1c772e1689"
+SCRIPT_COMMIT="13ef02da1bc55b8a36ff35ca5f9d15cf7495932a"
 
 ffbuild_enabled() {
     [[ $TARGET == linux* ]] || return 1
     return 0
 }
 
+ffbuild_dockerdl() {
+    to_df "RUN git clone --filter=blob:none \"$SCRIPT_REPO\" \"$SELF\" && git -C \"$SELF\" checkout \"$SCRIPT_COMMIT\""
+}
+
 ffbuild_dockerbuild() {
-    git clone --filter=blob:none "$SCRIPT_REPO" pa
-    cd pa
-    git checkout "$SCRIPT_COMMIT"
+    cd "$FFBUILD_DLDIR/$SELF"
 
     # Kill build of utils and their sndfile dep
     echo > src/utils/meson.build

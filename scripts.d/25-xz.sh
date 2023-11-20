@@ -1,17 +1,16 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/xz-mirror/xz.git"
-SCRIPT_COMMIT="1dbe12b90cff79bb51923733ac0840747b4b4131"
+SCRIPT_COMMIT="74c3449d8b816a724b12ebce7417e00fb597309a"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" xz
-    cd xz
+    cd "$FFBUILD_DLDIR/$SELF"
 
-    ./autogen.sh --no-po4a
+    ./autogen.sh --no-po4a --no-doxygen
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

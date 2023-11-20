@@ -6,19 +6,36 @@ env:
   HAVE_CLEANUP_PAT: ${{ secrets.CLEANUP_PAT != '' }}
 
 jobs:
-  build_base:
-    name: Build base image
+  pre_check:
+    name: Pre Checks
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Repo Check
+        run: |
+          if [[ "$GITHUB_REPOSITORY" != "BtbN/FFmpeg-Builds" ]]; then
+            echo "When forking this repository to make your own builds, you have to adjust this check."
+            echo "When doing so make sure to randomize the scheduled cron time above, in order to spread out the various build times as much as possible."
+            echo "This has been put in place due to the enormous amounts of traffic hundreds/thousands of parallel builds can cause on external infrastructure."
+            exit 1
+          fi
+          exit 0
+  build_base:
+    name: Build base image
+    if: ${{ github.event.inputs.buildOnly != 'true' }}
+    needs: pre_check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
         with:
           config: .github/buildkit.toml
       - name: Login to Docker
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -27,19 +44,40 @@ jobs:
         id: imagename
         run: |
           IMG="${GITHUB_REPOSITORY,,}/base"
+          DLIMG="${GITHUB_REPOSITORY,,}/dl_cache"
           echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
           echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
+          echo "dlname=ghcr.io/${DLIMG/ /-}" >> $GITHUB_OUTPUT
+          echo "dlrawname=${DLIMG/ /-}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: images/base
           pull: true
           push: true
+          provenance: false
           tags: ${{ steps.imagename.outputs.name }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
+      - name: Generate download cache Dockerfile
+        id: dl_cache
+        run: |
+          ./generate.sh dl only
+          echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
+          cat Dockerfile.dl
+      - name: Build download cache image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.dl
+          pull: true
+          push: true
+          provenance: false
+          tags: ${{ steps.imagename.outputs.dlname }}:${{ steps.dl_cache.outputs.dltagname }}
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.dlname }}:cache
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.dlname }}:cache
       - name: Cleanup
         if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
         continue-on-error: true
@@ -51,6 +89,18 @@ jobs:
           repository: ${{ github.repository }}
           owner_type: user
           untagged_only: true
+      - name: Cleanup Download Cache
+        if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
+        continue-on-error: true
+        uses: BtbN/delete-untagged-ghcr-action@main
+        with:
+          token: ${{ secrets.CLEANUP_PAT }}
+          package_name: ${{ steps.imagename.outputs.dlrawname }}
+          repository_owner: ${{ github.repository_owner }}
+          repository: ${{ github.repository }}
+          owner_type: user
+          untagged_only: false
+          keep_latest: 20
   build_target_bases:
     name: Build target base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
@@ -61,14 +111,16 @@ jobs:
       matrix:
         target: [win32]
     steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
         with:
           config: .github/buildkit.toml
       - name: Login to Docker
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -79,17 +131,21 @@ jobs:
           IMG="${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}"
           echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
           echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
+          echo "gh_repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: images/base-${{ matrix.target }}
           pull: true
           push: true
+          provenance: false
           tags: ${{ steps.imagename.outputs.name }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
+          build-args: |
+            GH_REPO=ghcr.io/${{ steps.imagename.outputs.gh_repo }}
       - name: Cleanup
         if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
         continue-on-error: true
@@ -112,14 +168,16 @@ jobs:
         target: [win32]
         variant: [gpl,lgpl,gpl 4.4,gpl 5.1,gpl 6.0,lgpl 4.4,lgpl 5.1,lgpl 6.0,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,gpl-shared 6.0,lgpl-shared 4.4,lgpl-shared 5.1,lgpl-shared 6.0]
     steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
         with:
           config: .github/buildkit.toml
       - name: Login to Docker
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -132,20 +190,18 @@ jobs:
           IMG="${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
           echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
           echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
-          echo "gh_repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: .
           pull: true
           push: true
+          provenance: false
           tags: ${{ steps.imagename.outputs.name }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
-          build-args: |
-            GH_REPO=ghcr.io/${{ steps.imagename.outputs.gh_repo }}
       - name: Cleanup
         if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
         continue-on-error: true
@@ -168,10 +224,12 @@ jobs:
         target: [win32]
         variant: [gpl,lgpl,gpl 4.4,gpl 5.1,gpl 6.0,lgpl 4.4,lgpl 5.1,lgpl 6.0,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,gpl-shared 6.0,lgpl-shared 4.4,lgpl-shared 5.1,lgpl-shared 6.0]
     steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Login to Docker
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -191,8 +249,10 @@ jobs:
     needs: build_ffmpeg
     runs-on: ubuntu-latest
     steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -206,7 +266,7 @@ jobs:
           RELDATE="$(date +'%Y-%m-%d %H:%M')"
           NAME="Auto-Build $RELDATE"
           TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
-          hub release create $(for a in artifacts/*.{zip}; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
+          gh release create "$TAGNAME" --target "master" --title "$NAME" artifacts/*.{zip,tar.xz}
           echo "tag_name=${TAGNAME}" >> $GITHUB_OUTPUT
           echo "rel_date=${RELDATE}" >> $GITHUB_OUTPUT
         env:
@@ -216,13 +276,12 @@ jobs:
           set -xe
           shopt -s nullglob
           mkdir latest_artifacts
-          ./util/repack_latest.sh latest_artifacts artifacts/*.zip
+          ./util/repack_latest.sh latest_artifacts artifacts/*.{zip,tar.xz}
           NAME="Latest Auto-Build (${{ steps.create_release.outputs.rel_date }})"
           TAGNAME="latest"
-          hub release delete "$TAGNAME" || true
-          git push --delete origin "$TAGNAME" || true
+          gh release delete --cleanup-tag --yes "$TAGNAME" || true
           sleep 15
-          hub release create $(for a in latest_artifacts/*; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
+          gh release create "$TAGNAME" --target "master" --title "$NAME" latest_artifacts/*
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Update Wiki
@@ -230,6 +289,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Prune old releases
-        run: ./util/prunetags.sh || echo "pruned some old releases"
+        run: ./util/prunetags.sh
         env:
           GITHUB_TOKEN: ${{ github.token }}

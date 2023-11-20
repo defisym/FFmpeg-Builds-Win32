@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxcursor.git"
-SCRIPT_COMMIT="a353f02a7ac4504ad5edb5407278c7a03c507aef"
+SCRIPT_COMMIT="5e0f8347cebef2b3a9f5d75ca254aabaa0bca259"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -9,8 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libxcursor
-    cd libxcursor
+    cd "$FFBUILD_DLDIR/$SELF"
 
     autoreconf -i
 

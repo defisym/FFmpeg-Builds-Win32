@@ -1,15 +1,14 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/freetype/freetype.git"
-SCRIPT_COMMIT="80a507a6b8e3d2906ad2c8ba69329bd2fb2a85ef"
+SCRIPT_COMMIT="a0e10a87f5d4f5e2cb9774f3f20ef3c8bd6b81b3"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" freetype
-    cd freetype
+    cd "$FFBUILD_DLDIR/$SELF"
 
     ./autogen.sh
 
