@@ -75,7 +75,8 @@ jobs:
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.dlname }}:${{ steps.dl_cache.outputs.dltagname }}
+        #   tags: ${{ steps.imagename.outputs.dlname }}:${{ steps.dl_cache.outputs.dltagname }}
+          tags: ${{ steps.imagename.outputs.dlname }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.dlname }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.dlname }}:cache
       - name: Cleanup
