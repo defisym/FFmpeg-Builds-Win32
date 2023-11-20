@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
+SCRIPT_REPO="https://github.com/mirror/mingw-w64.git"
 SCRIPT_COMMIT="9df2e604ddf16765410724716a8d1887ffc61fa9"
 
 ffbuild_enabled() {
