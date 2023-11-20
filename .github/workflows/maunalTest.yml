@@ -1,0 +1,47 @@
+name: Manual Test Full Build
+on: workflow_dispatch
+
+env:
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  build:
+    name: Test Full Build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [win32]
+        variant: [lgpl,gpl 6.0,gpl 5.1,lgpl 6.0,lgpl 5.1,gpl-shared,lgpl-shared,gpl-shared 6.0,gpl-shared 5.1,lgpl-shared 6.0,lgpl-shared 5.1]
+        quickbuild: [1]
+        include:
+          - target: win64
+            variant: gpl
+            quickbuild: ''
+          - target: linux64
+            variant: gpl
+            quickbuild: ''
+          - target: linuxarm64
+            variant: gpl
+            quickbuild: ''
+    steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          config: .github/buildkit.toml
+          driver: docker
+      - name: Build Image
+        run: ./makeimage.sh ${{ matrix.target }} ${{ matrix.variant }}
+        env:
+          QUICKBUILD: ${{ matrix.quickbuild }}
+      - name: Build ffmpeg
+        run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ffmpeg
+          path: artifacts/*
