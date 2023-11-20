@@ -59,7 +59,8 @@ if [[ "$TARGET" == "dl" && "$VARIANT" == "only" ]]; then
     exit 0
 fi
 
-DL_IMAGE="${DL_IMAGE_RAW}:$(./util/get_dl_cache_tag.sh)"
+# DL_IMAGE="${DL_IMAGE_RAW}:$(./util/get_dl_cache_tag.sh)"
+DL_IMAGE="${DL_IMAGE_RAW}:latest"
 
 ###
 ### Generate main Dockerfile
