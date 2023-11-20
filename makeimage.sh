@@ -43,7 +43,8 @@ if [[ -z "$QUICKBUILD" ]]; then
 fi
 
 ./generate.sh "$TARGET" "$VARIANT" "${ADDINS[@]}"
-DL_CACHE_TAG="$(./util/get_dl_cache_tag.sh)"
+# DL_CACHE_TAG="$(./util/get_dl_cache_tag.sh)"
+DL_CACHE_TAG="latest"
 DL_IMAGE="${DL_IMAGE_RAW}:${DL_CACHE_TAG}"
 
 if docker pull "${DL_IMAGE}"; then
