@@ -1,15 +1,13 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://chromium.googlesource.com/webm/libvpx"
-SCRIPT_COMMIT="974c14578ca3a2ee411ef1dbf0e55ca2c33da036"
+SCRIPT_COMMIT="4340382bb0da7623ecd27c3bfc9e5bec576e9c46"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     local myconf=(
         --disable-shared
         --enable-static

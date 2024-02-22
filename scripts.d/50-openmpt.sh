@@ -1,19 +1,17 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://source.openmpt.org/svn/openmpt/trunk/OpenMPT"
-SCRIPT_REV="19867"
+SCRIPT_REV="20135"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerdl() {
-    to_df "RUN retry-tool sh -c \"rm -rf openmpt && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' openmpt\""
+    echo "retry-tool sh -c \"rm -rf openmpt && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' openmpt\" && cd openmpt"
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/openmpt
-
     local myconf=(
         PREFIX="$FFBUILD_PREFIX"
         CXXSTDLIB_PCLIBSPRIVATE="-lstdc++"

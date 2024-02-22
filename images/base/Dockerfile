@@ -1,10 +1,7 @@
-FROM ubuntu:23.04
-
-ENV FFBUILD_DLDIR="/opt/ffdl"
+FROM ubuntu:23.10
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN \
-    mkdir -p "$FFBUILD_DLDIR" && \
     apt-get -y update && \
     apt-get -y dist-upgrade && \
     apt-get -y install build-essential yasm nasm \
@@ -22,7 +19,7 @@ RUN \
 
 ENV CARGO_HOME="/opt/cargo" RUSTUP_HOME="/opt/rustup" PATH="/opt/cargo/bin:${PATH}"
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y --no-modify-path && \
-    cargo install cargo-c --locked && rm -rf "${CARGO_HOME}"/registry "${CARGO_HOME}"/git
+    cargo install cargo-c && rm -rf "${CARGO_HOME}"/registry "${CARGO_HOME}"/git
 
 RUN --mount=src=.,dst=/input \
     for s in /input/*.sh; do cp $s /usr/bin/$(echo $s | sed -e 's|.*/||' -e 's/\.sh$//'); done

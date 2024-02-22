@@ -1,15 +1,13 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/Netflix/vmaf.git"
-SCRIPT_COMMIT="af31e4cd8059dbd9b8a51c5752096c2585be7792"
+SCRIPT_COMMIT="6d77a020ee4af32c854b6029bd64922bef95f1f6"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     # Kill build of unused and broken tools
     echo > libvmaf/tools/meson.build
 
@@ -43,6 +41,7 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
+    [[ $ADDINS_STR == *4.4* ]] && return 0
     echo --enable-libvmaf
 }
 

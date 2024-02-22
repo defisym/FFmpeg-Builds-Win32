@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/libsdl-org/SDL.git"
-SCRIPT_COMMIT="d47c286b12eccee479ba57c8897092c6277ef962"
+SCRIPT_COMMIT="df00a7dd4c3deb03839e799187a3c75fc4e8854b"
 SCRIPT_BRANCH="SDL2"
 
 ffbuild_enabled() {
@@ -9,8 +9,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     mkdir build && cd build
 
     local mycmake=(

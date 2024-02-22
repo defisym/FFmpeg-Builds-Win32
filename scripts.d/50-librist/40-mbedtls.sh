@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/ARMmbed/mbedtls.git"
-SCRIPT_COMMIT="v3.5.0"
+SCRIPT_COMMIT="v3.5.2"
 SCRIPT_TAGFILTER="v3.*"
 
 ffbuild_enabled() {
@@ -9,8 +9,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     if [[ $TARGET == win32 ]]; then
         python3 scripts/config.py unset MBEDTLS_AESNI_C
     fi

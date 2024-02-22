@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/oneapi-src/oneVPL.git"
-SCRIPT_COMMIT="ca5bbbb057a6e84b103aca807612afb693ad046c"
+SCRIPT_COMMIT="18e890e7a5d6355306b8f1046b46c378ced453ff"
 
 ffbuild_enabled() {
     [[ $TARGET == *arm64 ]] && return -1
@@ -12,8 +12,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     mkdir build && cd build
 
     cmake -GNinja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
