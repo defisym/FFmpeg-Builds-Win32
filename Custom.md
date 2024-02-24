@@ -39,6 +39,8 @@ You need to add commit messages in order to push it. On Windows, git bash will o
 4. press `esc` to return to command mode
 5. `:wq`
 
+Note: On Windows, Github desktop can list the permission change but cannot push it with error message `Nothing to commit`, so you must use command line in bash to do the job.
+
 References:
 
 - <https://github.com/orgs/community/discussions/26891>
