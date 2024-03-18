@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,linux64,linuxarm64]
+        target: [win32]
         variant: [lgpl,gpl 6.0,gpl 5.1,lgpl 6.0,lgpl 5.1,gpl-shared,lgpl-shared,gpl-shared 6.0,gpl-shared 5.1,lgpl-shared 6.0,lgpl-shared 5.1]
         quickbuild: [1]
         include:

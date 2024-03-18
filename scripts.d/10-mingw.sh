@@ -1,7 +1,14 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
-SCRIPT_COMMIT="dbfdf802580c0d6b90b91995dab019f2a7787a8e"
+# SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
+# SCRIPT_COMMIT="57f796c80bfac3c75725e4e7a086afe43968b3ae"
+SCRIPT_REPO="https://github.com/mingw-w64/mingw-w64.git"
+# 11.0.0
+# SCRIPT_COMMIT="f9500e2d85b9400c0982518663660a127e1dc61a"
+# 11.0.1
+# SCRIPT_COMMIT="c3e587c067a00a561899d49d3e63a659e38802ec"
+# Latest
+SCRIPT_COMMIT="fb5a1c9a721f1fcf6f0338bb91f2fd571fa553ce"
 
 ffbuild_enabled() {
     [[ $TARGET == win* ]] || return -1
