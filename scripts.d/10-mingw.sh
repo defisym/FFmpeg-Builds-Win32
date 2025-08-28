@@ -16,6 +16,10 @@ SCRIPT_COMMIT="4ade15926ba7512b2d53949225e94049b899a8d4"
 # Latest
 # SCRIPT_COMMIT="8700091928df67b2ee69ec46ac6f2c369a3e8c21"
 
+ffbuild_depends() {
+    return 0
+}
+
 ffbuild_enabled() {
     [[ $TARGET == win* ]] || return -1
     return 0
@@ -24,6 +28,7 @@ ffbuild_enabled() {
 ffbuild_dockerlayer() {
     [[ $TARGET == winarm* ]] && return 0
     to_df "COPY --link --from=${SELFLAYER} /opt/mingw/. /"
+    [[ -n "$COMBINING" ]] || return 0
     to_df "COPY --link --from=${SELFLAYER} /opt/mingw/. /opt/mingw"
 }
 
