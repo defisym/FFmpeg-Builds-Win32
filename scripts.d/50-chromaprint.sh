@@ -1,5 +1,32 @@
 #!/bin/bash
 
+set -x
+echo "=== ENV ==="
+env | sort
+
+echo "=== Check /opt/ffbuild top-level ==="
+ls -la /opt || true
+ls -la /opt/ffbuild || true
+ls -la /opt/ffbuild/lib || true
+ls -la /opt/ffbuild/include || true
+ls -la /opt/ffbuild/lib/pkgconfig || true
+
+echo "=== pkg-config (host and cross) ==="
+which pkg-config || true
+which i686-w64-mingw32-pkg-config || true
+PKG_CONFIG_PATH=/opt/ffbuild/lib/pkgconfig pkg-config --modversion zlib || true
+PKG_CONFIG_PATH=/opt/ffbuild/lib/pkgconfig pkg-config --cflags zlib || true
+
+echo "=== lib files (file output shows arch) ==="
+for f in /opt/ffbuild/lib/libz* /opt/ffbuild/lib/libfftw3* /opt/ffbuild/lib/lib*.a; do
+  [ -e "$f" ] && file "$f" || true
+done
+
+echo "=== pkgconfig files content (if present) ==="
+for pc in /opt/ffbuild/lib/pkgconfig/*.pc; do
+  echo "== $pc =="; [ -e "$pc" ] && sed -n '1,120p' "$pc" || true
+done
+
 SCRIPT_REPO="https://github.com/acoustid/chromaprint.git"
 SCRIPT_COMMIT="ac31acc8431defbb134ec54eb11daf9146c74170"
 
