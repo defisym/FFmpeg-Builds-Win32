@@ -27,7 +27,7 @@ jobs:
   pre_check:
     name: Pre Checks
     if: ${{ github.event.inputs.buildOnly != 'true' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Repo Check
         if: ${{ github.event_name == 'schedule' }}
@@ -49,7 +49,7 @@ jobs:
     name: Build base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: pre_check
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
@@ -126,7 +126,7 @@ jobs:
     name: Build target base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: build_base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -183,7 +183,7 @@ jobs:
     name: Build target-variant image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: build_target_bases
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -250,7 +250,7 @@ jobs:
     name: Build ffmpeg
     if: ${{ ( github.event.inputs.buildOnly == 'true' && !cancelled() ) || success() }}
     needs: build_targets
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     outputs:
         build_result: ${{ steps.set-output.outputs.success }}
     strategy:
@@ -294,7 +294,7 @@ jobs:
     # if: ${{ !cancelled() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.result == 'success' }}
     if: ${{ !cancelled() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.outputs.build_result == 'true' }}
     needs: build_ffmpeg
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
