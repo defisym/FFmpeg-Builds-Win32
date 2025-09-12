@@ -4,9 +4,17 @@ SCRIPT_REPO="https://git.savannah.gnu.org/git/libiconv.git"
 SCRIPT_MIRROR="git://git.savannah.gnu.org/libiconv.git"
 SCRIPT_COMMIT="61fbe742a3702e5030f8258ad130a847d6c3e89a"
 
+# Mirror
+# SCRIPT_REPO="https://github.com/arthenica/libiconv.git"
+# SCRIPT_COMMIT="918904edaf378253f262ce19da02ec69cec94a4e"
+
 SCRIPT_REPO2="https://git.savannah.gnu.org/git/gnulib.git"
 SCRIPT_MIRROR2="https://github.com/coreutils/gnulib.git"
 SCRIPT_COMMIT2="ef6d228c7dba8363ce147450c3c2c3ab95642d4c"
+
+# Mirror
+# SCRIPT_REPO2="https://github.com/coreutils/gnulib.git"
+# SCRIPT_COMMIT2="19b6bc71b09d8b1a342a9d529ee6ab117b04dd7a"
 
 ffbuild_enabled() {
     return 0
