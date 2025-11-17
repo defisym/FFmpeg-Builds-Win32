@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://chromium.googlesource.com/webm/libvpx"
-SCRIPT_COMMIT="7e6a326242ed8e21f3e42251081e5b251409fde4"
+SCRIPT_COMMIT="9a7674e1a83d1261a49776c8794b87c9bccc85d7"
 
 ffbuild_enabled() {
     [[ $TARGET == winarm64 ]] && return -1
