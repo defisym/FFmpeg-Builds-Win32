@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/fontconfig/fontconfig.git"
-SCRIPT_COMMIT="a9fd30d226322f7f9b674a74d3782eea03c29453"
+SCRIPT_COMMIT="bf0ff2ce21f45596d078f3a9573abc9d9453d1e0"
 
 ffbuild_depends() {
     echo base
@@ -14,40 +14,40 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    # The version-detection here fails for Debian-Versions of libtoolize, so it needs a bit of help
-    sed -i -e 's/libtool_version=.*/libtool_version=2.5/g' ./autogen.sh
-
-    ./autogen.sh --noconf
+    mkdir build && cd build
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
-        --disable-docs
-        --enable-libxml2
-        --enable-iconv
-        --disable-shared
-        --enable-static
+        --buildtype=release
+        --default-library=static
+        -Ddoc=disabled
+        -Diconv=enabled
+        -Dxml-backend=libxml2
+        -Dtools=disabled
+        -Dcache-build=disabled
+        -Dtests=disabled
     )
 
     if [[ $TARGET == linux* ]]; then
         myconf+=(
             --sysconfdir=/etc
             --localstatedir=/var
-            --host="$FFBUILD_TOOLCHAIN"
+            --cross-file=/cross.meson
         )
     elif [[ $TARGET == win* ]]; then
         myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
+            --cross-file=/cross.meson
         )
     else
         echo "Unknown target"
         return -1
     fi
 
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    meson setup "${myconf[@]}" ..
+    ninja -j"$(nproc)"
+    DESTDIR="$FFBUILD_DESTDIR" ninja install
 
-    rm -rf "$FFBUILD_DESTDIR"/{var,etc}
+    rm -rf "$FFBUILD_DESTPREFIX"/{var,share,etc}
 }
 
 ffbuild_configure() {

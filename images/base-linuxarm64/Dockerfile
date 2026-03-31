@@ -13,7 +13,7 @@ RUN --mount=src=ct-ng-config,dst=/.config \
 
 # Prepare cross environment to heavily favour static builds
 RUN \
-    find /opt/ct-ng -type l \
+    find /opt/ct-ng \( -type l \
         -and -name '*.so' \
         -and -not -ipath '*plugin*' \
         -and -not -name 'libdl.*' \
@@ -22,15 +22,15 @@ RUN \
         -and -not -name 'libmvec.*' \
         -and -not -name 'librt.*' \
         -and -not -name 'libpthread.*' \
-        -delete && \
-    find /opt/ct-ng \
+        \) -delete && \
+    find /opt/ct-ng \( \
         -name 'libdl.a' \
         -or -name 'libc.a' \
         -or -name 'libm.a' \
         -or -name 'libmvec.a' \
         -or -name 'librt.a' \
         -or -name 'libpthread.a' \
-        -delete && \
+        \) -delete && \
     mkdir /opt/ffbuild
 
 ENV FFBUILD_TOOLCHAIN=aarch64-ffbuild-linux-gnu \
@@ -47,6 +47,7 @@ ADD gen-implib.sh /usr/bin/gen-implib
 RUN git clone --filter=blob:none --depth=1 https://github.com/yugr/Implib.so /opt/implib
 
 ENV PATH="/opt/ct-ng/bin:${PATH}" \
+    QEMU_LD_PREFIX="/opt/ct-ng/${FFBUILD_TOOLCHAIN}/sysroot" \
     FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLCHAIN}- --arch=aarch64 --cpu=armv8-a --target-os=linux" \
     FFBUILD_CROSS_PREFIX="${FFBUILD_TOOLCHAIN}-" \
     FFBUILD_PREFIX=/opt/ffbuild \

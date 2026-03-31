@@ -13,11 +13,17 @@ RUN --mount=src=ct-ng-config,dst=/.config \
 
 # Prepare "cross" environment to heavily favour static builds
 RUN \
-    find /opt/ct-ng \
+    find /opt/ct-ng \( \
         -name "*.dll" \
         -or -name "*.dll.a" \
-        -delete && \
+        \) -delete && \
     mkdir /opt/ffbuild
+
+RUN \
+    apt-get -y update && \
+    apt-get -y install --no-install-recommends wine-stable && \
+    apt-get -y clean autoclean && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV FFBUILD_TOOLCHAIN=x86_64-w64-mingw32 \
     FFBUILD_RUST_TARGET=x86_64-pc-windows-gnu

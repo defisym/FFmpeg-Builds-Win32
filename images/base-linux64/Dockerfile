@@ -13,7 +13,7 @@ RUN --mount=src=ct-ng-config,dst=/.config \
 
 # Prepare "cross" environment to heavily favour static builds
 RUN \
-    find /opt/ct-ng -type l \
+    find /opt/ct-ng \( -type l \
         -and -name '*.so' \
         -and -not -ipath '*plugin*' \
         -and -not -name 'libdl.*' \
@@ -22,15 +22,15 @@ RUN \
         -and -not -name 'libmvec.*' \
         -and -not -name 'librt.*' \
         -and -not -name 'libpthread.*' \
-        -delete && \
-    find /opt/ct-ng \
+        \) -delete && \
+    find /opt/ct-ng \( \
         -name 'libdl.a' \
         -or -name 'libc.a' \
         -or -name 'libm.a' \
         -or -name 'libmvec.a' \
         -or -name 'librt.a' \
         -or -name 'libpthread.a' \
-        -delete && \
+        \) -delete && \
     mkdir /opt/ffbuild
 
 ENV FFBUILD_TOOLCHAIN=x86_64-ffbuild-linux-gnu \

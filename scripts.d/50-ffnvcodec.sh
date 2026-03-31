@@ -1,22 +1,23 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/FFmpeg/nv-codec-headers.git"
-SCRIPT_COMMIT="876af32a202d0de83bd1d36fe74ee0f7fcf86b0d"
+SCRIPT_COMMIT="33a9ede8d9914299d9262539c576a15bd0a19621"
 
 SCRIPT_REPO2="https://github.com/FFmpeg/nv-codec-headers.git"
-SCRIPT_COMMIT2="22441b505d9d9afc1e3002290820909846c24bdc"
+SCRIPT_COMMIT2="fe32761e7a8bc79fcf560f356bf3898271bf4d56"
 SCRIPT_BRANCH2="sdk/12.0"
 
 SCRIPT_REPO3="https://github.com/FFmpeg/nv-codec-headers.git"
-SCRIPT_COMMIT3="75f032b24263c2b684b9921755cafc1c08e41b9d"
+SCRIPT_COMMIT3="bafcf66bf6f98eb76ed135a75e78913b989cbc89"
 SCRIPT_BRANCH3="sdk/12.1"
 
 SCRIPT_REPO4="https://github.com/FFmpeg/nv-codec-headers.git"
-SCRIPT_COMMIT4="9934f17316b66ce6de12f3b82203a298bc9351d8"
+SCRIPT_COMMIT4="f8339c06648fb6642aac1261d76e4158dc0b5401"
 SCRIPT_BRANCH4="sdk/12.2"
 
 ffbuild_enabled() {
     [[ $TARGET == winarm64 ]] && return -1
+    (( $(ffbuild_ffver) >= 404 )) || return -1
     return 0
 }
 
@@ -28,11 +29,11 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
-    if [[ $ADDINS_STR == *4.4* || $ADDINS_STR == *5.0* || $ADDINS_STR == *5.1* || $ADDINS_STR == *6.0* || $ADDINS_STR == *6.1* ]]; then
+    if (( $FFVER < 700 )); then
         cd ffnvcodec2
-    elif [[ $ADDINS_STR == *7.0* ]]; then
+    elif (( $FFVER < 701 )); then
         cd ffnvcodec3
-    elif [[ $ADDINS_STR == *7.1* ]]; then
+    elif (( $FFVER < 800 )); then
         cd ffnvcodec4
     else
         cd ffnvcodec

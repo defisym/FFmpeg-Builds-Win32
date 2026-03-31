@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libpciaccess.git"
-SCRIPT_COMMIT="191dfe0707e2a93c08e4b3e99454b6146c5bfca2"
+SCRIPT_COMMIT="38e6f15f839fba2c49982e7ad61cde681fd5d4d6"
 
 ffbuild_depends() {
     echo base

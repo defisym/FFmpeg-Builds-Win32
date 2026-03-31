@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.28.0.1_403899e Configuration
+# crosstool-NG 1.28.0.23_185f348 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -29,7 +29,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.28.0.1_403899e"
+CT_VERSION="1.28.0.23_185f348"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -260,6 +260,7 @@ CT_TOOLCHAIN_CMAKE_TOOLCHAIN_FILE=y
 CT_KERNEL_SUPPORTS_SHARED_LIBS=y
 # CT_KERNEL_BARE_METAL is not set
 CT_KERNEL_LINUX=y
+# CT_KERNEL_WINDOWS is not set
 CT_KERNEL="linux"
 CT_KERNEL_CHOICE_KSYM="LINUX"
 CT_KERNEL_LINUX_SHOW=y
@@ -280,6 +281,8 @@ CT_LINUX_PATCH_GLOBAL=y
 # CT_LINUX_PATCH_LOCAL_BUNDLED is not set
 # CT_LINUX_PATCH_NONE is not set
 CT_LINUX_PATCH_ORDER="global"
+# CT_LINUX_V_6_18 is not set
+# CT_LINUX_V_6_17 is not set
 # CT_LINUX_V_6_16 is not set
 # CT_LINUX_V_6_15 is not set
 # CT_LINUX_V_6_14 is not set
@@ -401,7 +404,8 @@ CT_BINUTILS_PATCH_GLOBAL=y
 # CT_BINUTILS_PATCH_LOCAL_BUNDLED is not set
 # CT_BINUTILS_PATCH_NONE is not set
 CT_BINUTILS_PATCH_ORDER="global"
-CT_BINUTILS_V_2_45=y
+CT_BINUTILS_V_2_46=y
+# CT_BINUTILS_V_2_45 is not set
 # CT_BINUTILS_V_2_44 is not set
 # CT_BINUTILS_V_2_43 is not set
 # CT_BINUTILS_V_2_42 is not set
@@ -421,14 +425,16 @@ CT_BINUTILS_V_2_45=y
 # CT_BINUTILS_V_2_28 is not set
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
-CT_BINUTILS_VERSION="2.45"
+CT_BINUTILS_VERSION="2.46.0"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_BINUTILS_SIGNATURE_FORMAT="packed/.sig"
+CT_BINUTILS_2_46_0_or_later=y
+CT_BINUTILS_2_46_0_or_older=y
+CT_BINUTILS_later_than_2_45=y
 CT_BINUTILS_2_45_or_later=y
-CT_BINUTILS_2_45_or_older=y
 CT_BINUTILS_later_than_2_44=y
 CT_BINUTILS_2_44_or_later=y
 CT_BINUTILS_later_than_2_41=y
@@ -488,6 +494,7 @@ CT_GLIBC_PATCH_GLOBAL=y
 # CT_GLIBC_PATCH_LOCAL_BUNDLED is not set
 # CT_GLIBC_PATCH_NONE is not set
 CT_GLIBC_PATCH_ORDER="global"
+# CT_GLIBC_V_2_43 is not set
 # CT_GLIBC_V_2_42 is not set
 # CT_GLIBC_V_2_41 is not set
 # CT_GLIBC_V_2_40 is not set
@@ -516,6 +523,8 @@ CT_GLIBC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_GLIBC_SIGNATURE_FORMAT="packed/.sig"
+CT_GLIBC_2_43_or_older=y
+CT_GLIBC_older_than_2_43=y
 CT_GLIBC_2_42_or_older=y
 CT_GLIBC_older_than_2_42=y
 CT_GLIBC_2_41_or_older=y

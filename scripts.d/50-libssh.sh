@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.com/libssh/libssh-mirror.git"
-SCRIPT_COMMIT="63fbf00efef84f1591c3c82911c6a92e77ca8d2c"
+SCRIPT_COMMIT="3154a4ab8d3277d1cabe028cd3c0841e945f6863"
 
 ffbuild_depends() {
     echo base
@@ -15,6 +15,8 @@ ffbuild_enabled() {
 
 ffbuild_dockerbuild() {
     mkdir build && cd build
+
+    export CFLAGS="$CFLAGS -Dmd5=libssh_md5"
 
     cmake -GNinja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF -DWITH_EXAMPLES=OFF -DWITH_SERVER=OFF -DWITH_SFTP=ON -DWITH_ZLIB=ON \

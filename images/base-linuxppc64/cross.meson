@@ -1,0 +1,13 @@
+[binaries]
+c = 'powerpc64-ffbuild-linux-gnu-gcc'
+cpp = 'powerpc64-ffbuild-linux-gnu-g++'
+ld = 'powerpc64-ffbuild-linux-gnu-ld'
+ar = 'powerpc64-ffbuild-linux-gnu-gcc-ar'
+ranlib = 'powerpc64-ffbuild-linux-gnu-gcc-ranlib'
+strip = 'powerpc64-ffbuild-linux-gnu-strip'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'ppc64'
+cpu = 'ppc64'
+endian = 'big'

@@ -13,10 +13,10 @@ RUN \
 
 # Prepare "cross" environment to heavily favour static builds
 RUN \
-    find /opt/llvm-mingw \
+    find /opt/llvm-mingw \( \
         -name "*.dll" \
         -or -name "*.dll.a" \
-        -delete && \
+        \) -delete && \
     mkdir /opt/ffbuild
 
 ENV FFBUILD_TOOLCHAIN=aarch64-w64-mingw32 \

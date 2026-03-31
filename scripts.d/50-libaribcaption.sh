@@ -6,20 +6,20 @@ SCRIPT_COMMIT="27cf3cab26084d636905335d92c375ecbc3633ea"
 ffbuild_depends() {
     echo base
     echo fonts
+    echo openssl
 }
 
 ffbuild_enabled() {
-    [[ $ADDINS_STR == *4.4* ]] && return -1
-    [[ $ADDINS_STR == *5.0* ]] && return -1
-    [[ $ADDINS_STR == *5.1* ]] && return -1
-    [[ $ADDINS_STR == *6.0* ]] && return -1
-
+    (( $(ffbuild_ffver) > 600 )) || return -1
     return 0
 }
 
 ffbuild_dockerbuild() {
     mkdir build
     cd build
+
+    export CFLAGS="$CFLAGS -DHAVE_OPENSSL=1"
+    export CXXFLAGS="$CXXFLAGS -DHAVE_OPENSSL=1"
 
     cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DARIBCC_SHARED_LIBRARY=OFF -DARIBCC_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF \
@@ -29,7 +29,7 @@ ffbuild_dockerbuild() {
     ninja -j$(nproc)
     DESTDIR="$FFBUILD_DESTDIR" ninja install
 
-    echo "Libs.private: -lstdc++" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libaribcaption.pc
+    echo "Libs.private: -lstdc++ -lcrypto" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libaribcaption.pc
 }
 
 ffbuild_configure() {
@@ -37,10 +37,6 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
-    [[ $ADDINS_STR == *4.4* ]] && return 0
-    [[ $ADDINS_STR == *5.0* ]] && return 0
-    [[ $ADDINS_STR == *5.1* ]] && return 0
-    [[ $ADDINS_STR == *6.0* ]] && return 0
-
+    (( $(ffbuild_ffver) > 600 )) || return 0
     echo --disable-libaribcaption
 }

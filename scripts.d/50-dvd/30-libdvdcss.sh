@@ -1,15 +1,11 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/libdvdcss.git"
-SCRIPT_COMMIT="c838ca97553aeb8505b7baf02b9a90f8505de212"
+SCRIPT_COMMIT="2682a4a7ed782e700a5b920f6f85c4f9736921c3"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
-    [[ $ADDINS_STR == *4.4* ]] && return -1
-    [[ $ADDINS_STR == *5.0* ]] && return -1
-    [[ $ADDINS_STR == *5.1* ]] && return -1
-    [[ $ADDINS_STR == *6.0* ]] && return -1
-    [[ $ADDINS_STR == *6.1* ]] && return -1
+    (( $(ffbuild_ffver) >= 700 )) || return -1
     return 0
 }
 

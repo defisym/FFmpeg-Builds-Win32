@@ -1,0 +1,13 @@
+[binaries]
+c = 'mips64-ffbuild-linux-gnu-gcc'
+cpp = 'mips64-ffbuild-linux-gnu-g++'
+ld = 'mips64-ffbuild-linux-gnu-ld'
+ar = 'mips64-ffbuild-linux-gnu-gcc-ar'
+ranlib = 'mips64-ffbuild-linux-gnu-gcc-ranlib'
+strip = 'mips64-ffbuild-linux-gnu-strip'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'mips64'
+cpu = 'mips64'
+endian = 'big'

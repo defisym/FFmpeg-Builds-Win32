@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/libplacebo.git"
-SCRIPT_COMMIT="2e5a392b7f1e4c25d5a3f931e253d71ab566757f"
+SCRIPT_COMMIT="33b5dfada6a84692912e4d41f673f895df79479e"
 
 ffbuild_depends() {
     echo base
@@ -28,7 +28,7 @@ ffbuild_dockerbuild() {
         --buildtype=release
         --default-library=static
         -Dvulkan=enabled
-        -Dvk-proc-addr=disabled
+        -Dvk-proc-addr=enabled
         -Dvulkan-registry="$FFBUILD_PREFIX"/share/vulkan/registry/vk.xml
         -Dshaderc=enabled
         -Dglslang=disabled
@@ -65,6 +65,6 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
-    [[ $ADDINS_STR == *4.4* ]] && return 0
+    (( $(ffbuild_ffver) >= 500 )) || return 0
     echo --disable-libplacebo
 }
