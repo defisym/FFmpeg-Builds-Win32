@@ -2,11 +2,11 @@
 
 SCRIPT_REPO="https://git.savannah.gnu.org/git/libiconv.git"
 SCRIPT_MIRROR="git://git.git.savannah.gnu.org/libiconv.git"
-SCRIPT_COMMIT="a8850dc314a906b7bbe49a7c60424c7b10f57236"
+SCRIPT_COMMIT="9d19c66d0a1768cffcf497b2db70bf4018b578d7"
 
 SCRIPT_REPO2="https://git.savannah.gnu.org/git/gnulib.git"
 SCRIPT_MIRROR2="https://github.com/coreutils/gnulib.git"
-SCRIPT_COMMIT2="4e11e3d07a79a49eaa9b155c43801bbc1e5bd86e"
+SCRIPT_COMMIT2="3104b047495f948f2e16f85bbfc2f82b9e3f4b7b"
 
 ffbuild_enabled() {
     return 0
@@ -18,9 +18,6 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
-    # No automake 1.18 packaged anywhere yet.
-    sed -i 's/-1.18/-1.17/' Makefile.devel libcharset/Makefile.devel
-
     (unset CC CFLAGS GMAKE && ./autogen.sh)
 
     local myconf=(

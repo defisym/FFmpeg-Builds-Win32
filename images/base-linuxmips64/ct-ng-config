@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.28.0.23_185f348 Configuration
+# crosstool-NG 1.28.0.35_14025c5 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -29,7 +29,8 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.28.0.23_185f348"
+CT_CONFIGURE_has_zstd=y
+CT_VERSION="1.28.0.35_14025c5"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -299,7 +300,7 @@ CT_LINUX_PATCH_ORDER="global"
 # CT_LINUX_V_6_4 is not set
 # CT_LINUX_V_6_3 is not set
 # CT_LINUX_V_6_2 is not set
-# CT_LINUX_V_6_1 is not set
+CT_LINUX_V_6_1=y
 # CT_LINUX_V_6_0 is not set
 # CT_LINUX_V_5_19 is not set
 # CT_LINUX_V_5_18 is not set
@@ -322,7 +323,7 @@ CT_LINUX_PATCH_ORDER="global"
 # CT_LINUX_V_5_0 is not set
 # CT_LINUX_V_4_20 is not set
 # CT_LINUX_V_4_19 is not set
-CT_LINUX_V_4_18=y
+# CT_LINUX_V_4_18 is not set
 # CT_LINUX_V_4_17 is not set
 # CT_LINUX_V_4_16 is not set
 # CT_LINUX_V_4_15 is not set
@@ -341,20 +342,20 @@ CT_LINUX_V_4_18=y
 # CT_LINUX_V_3_10 is not set
 # CT_LINUX_V_3_4 is not set
 # CT_LINUX_V_3_2 is not set
-CT_LINUX_VERSION="4.18.20"
+CT_LINUX_VERSION="6.1.159"
 CT_LINUX_MIRRORS="$(CT_Mirrors kernel.org linux ${CT_LINUX_VERSION})"
 CT_LINUX_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_LINUX_SIGNATURE_FORMAT="unpacked/.sign"
-CT_LINUX_5_19_or_older=y
-CT_LINUX_older_than_5_19=y
-CT_LINUX_5_12_or_older=y
-CT_LINUX_older_than_5_12=y
-CT_LINUX_5_5_or_older=y
-CT_LINUX_older_than_5_5=y
-CT_LINUX_5_3_or_older=y
-CT_LINUX_older_than_5_3=y
+CT_LINUX_later_than_5_19=y
+CT_LINUX_5_19_or_later=y
+CT_LINUX_later_than_5_12=y
+CT_LINUX_5_12_or_later=y
+CT_LINUX_later_than_5_5=y
+CT_LINUX_5_5_or_later=y
+CT_LINUX_later_than_5_3=y
+CT_LINUX_5_3_or_later=y
 CT_LINUX_later_than_4_8=y
 CT_LINUX_4_8_or_later=y
 CT_LINUX_later_than_3_7=y
@@ -368,7 +369,6 @@ CT_KERNEL_LINUX_VERBOSITY_0=y
 # CT_KERNEL_LINUX_VERBOSITY_1 is not set
 # CT_KERNEL_LINUX_VERBOSITY_2 is not set
 CT_KERNEL_LINUX_VERBOSE_LEVEL=0
-# CT_KERNEL_LINUX_INSTALL_CHECK is not set
 CT_ALL_KERNEL_CHOICES="BARE_METAL LINUX WINDOWS"
 
 #
@@ -503,7 +503,7 @@ CT_GLIBC_PATCH_ORDER="global"
 # CT_GLIBC_V_2_39 is not set
 # CT_GLIBC_V_2_38 is not set
 # CT_GLIBC_V_2_37 is not set
-# CT_GLIBC_V_2_36 is not set
+CT_GLIBC_V_2_36=y
 # CT_GLIBC_V_2_35 is not set
 # CT_GLIBC_V_2_34 is not set
 # CT_GLIBC_V_2_33 is not set
@@ -511,7 +511,7 @@ CT_GLIBC_PATCH_ORDER="global"
 # CT_GLIBC_V_2_31 is not set
 # CT_GLIBC_V_2_30 is not set
 # CT_GLIBC_V_2_29 is not set
-CT_GLIBC_V_2_28=y
+# CT_GLIBC_V_2_28 is not set
 # CT_GLIBC_V_2_27 is not set
 # CT_GLIBC_V_2_26 is not set
 # CT_GLIBC_V_2_25 is not set
@@ -519,7 +519,7 @@ CT_GLIBC_V_2_28=y
 # CT_GLIBC_V_2_23 is not set
 # CT_GLIBC_V_2_19 is not set
 # CT_GLIBC_V_2_17 is not set
-CT_GLIBC_VERSION="2.28"
+CT_GLIBC_VERSION="2.36"
 CT_GLIBC_MIRRORS="$(CT_Mirrors GNU glibc)"
 CT_GLIBC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -535,20 +535,20 @@ CT_GLIBC_2_38_or_older=y
 CT_GLIBC_older_than_2_38=y
 CT_GLIBC_2_37_or_older=y
 CT_GLIBC_older_than_2_37=y
+CT_GLIBC_2_36_or_later=y
 CT_GLIBC_2_36_or_older=y
-CT_GLIBC_older_than_2_36=y
-CT_GLIBC_2_34_or_older=y
-CT_GLIBC_older_than_2_34=y
-CT_GLIBC_2_32_or_older=y
-CT_GLIBC_older_than_2_32=y
-CT_GLIBC_2_31_or_older=y
-CT_GLIBC_older_than_2_31=y
-CT_GLIBC_2_30_or_older=y
-CT_GLIBC_older_than_2_30=y
-CT_GLIBC_2_29_or_older=y
-CT_GLIBC_older_than_2_29=y
+CT_GLIBC_later_than_2_34=y
+CT_GLIBC_2_34_or_later=y
+CT_GLIBC_later_than_2_32=y
+CT_GLIBC_2_32_or_later=y
+CT_GLIBC_later_than_2_31=y
+CT_GLIBC_2_31_or_later=y
+CT_GLIBC_later_than_2_30=y
+CT_GLIBC_2_30_or_later=y
+CT_GLIBC_later_than_2_29=y
+CT_GLIBC_2_29_or_later=y
+CT_GLIBC_later_than_2_28=y
 CT_GLIBC_2_28_or_later=y
-CT_GLIBC_2_28_or_older=y
 CT_GLIBC_later_than_2_27=y
 CT_GLIBC_2_27_or_later=y
 CT_GLIBC_later_than_2_26=y
@@ -569,19 +569,15 @@ CT_GLIBC_DEP_KERNEL_HEADERS_VERSION=y
 CT_GLIBC_DEP_BINUTILS=y
 CT_GLIBC_DEP_GCC=y
 CT_GLIBC_DEP_PYTHON=y
-CT_GLIBC_DEP_MAKE_4_3=y
-CT_GLIBC_SPARC_ALLOW_V7=y
 CT_THREADS="nptl"
 CT_GLIBC_BUILD_SSP=y
 CT_GLIBC_HAS_LIBIDN_ADDON=y
 # CT_GLIBC_USE_LIBIDN_ADDON is not set
 CT_GLIBC_NO_SPARC_V8=y
-CT_GLIBC_HAS_OBSOLETE_RPC=y
 CT_GLIBC_EXTRA_CONFIG_ARRAY="--with-pic"
 CT_GLIBC_CONFIGPARMS=""
 # CT_GLIBC_ENABLE_DEBUG is not set
 CT_GLIBC_EXTRA_CFLAGS="-fPIC -DPIC"
-CT_GLIBC_ENABLE_OBSOLETE_RPC=y
 # CT_GLIBC_ENABLE_FORTIFIED_BUILD is not set
 # CT_GLIBC_DISABLE_VERSIONING is not set
 CT_GLIBC_OLDEST_ABI=""
@@ -590,7 +586,7 @@ CT_GLIBC_FORCE_UNWIND=y
 # CT_GLIBC_KERNEL_VERSION_NONE is not set
 CT_GLIBC_KERNEL_VERSION_AS_HEADERS=y
 # CT_GLIBC_KERNEL_VERSION_CHOSEN is not set
-CT_GLIBC_MIN_KERNEL="4.18.20"
+CT_GLIBC_MIN_KERNEL="6.1.159"
 CT_GLIBC_SSP_DEFAULT=y
 # CT_GLIBC_SSP_NO is not set
 # CT_GLIBC_SSP_YES is not set
@@ -605,7 +601,8 @@ CT_LIBC_SUPPORT_THREADS_NATIVE=y
 # Common C library options
 #
 CT_THREADS_NATIVE=y
-# CT_CREATE_LDSO_CONF is not set
+CT_CREATE_LDSO_CONF=y
+CT_LDSO_CONF_EXTRA_DIRS_ARRAY=""
 CT_LIBC_XLDD=y
 # end of C-library
 
@@ -656,8 +653,6 @@ CT_GCC_V_15=y
 # CT_GCC_V_8 is not set
 # CT_GCC_V_7 is not set
 # CT_GCC_V_6 is not set
-# CT_GCC_V_5 is not set
-# CT_GCC_V_4_9 is not set
 CT_GCC_VERSION="15.2.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
@@ -684,8 +679,10 @@ CT_GCC_later_than_7=y
 CT_GCC_7_or_later=y
 CT_GCC_later_than_6=y
 CT_GCC_6_or_later=y
+CT_GCC_REQUIRE_6_or_later=y
 CT_GCC_later_than_5=y
 CT_GCC_5_or_later=y
+CT_GCC_REQUIRE_5_or_later=y
 CT_GCC_later_than_4_9=y
 CT_GCC_4_9_or_later=y
 CT_GCC_REQUIRE_4_9_or_later=y
@@ -783,7 +780,8 @@ CT_MOLD_PATCH_GLOBAL=y
 # CT_MOLD_PATCH_LOCAL_BUNDLED is not set
 # CT_MOLD_PATCH_NONE is not set
 CT_MOLD_PATCH_ORDER="global"
-CT_MOLD_V_2_40_4=y
+CT_MOLD_V_2_41_0=y
+# CT_MOLD_V_2_40_4 is not set
 # CT_MOLD_V_2_39_1 is not set
 # CT_MOLD_V_2_38_1 is not set
 # CT_MOLD_V_2_37_1 is not set
@@ -791,7 +789,7 @@ CT_MOLD_V_2_40_4=y
 # CT_MOLD_V_2_33_0 is not set
 # CT_MOLD_V_2_32_0 is not set
 # CT_MOLD_V_2_31_0 is not set
-CT_MOLD_VERSION="2.40.4"
+CT_MOLD_VERSION="2.41.0"
 CT_MOLD_MIRRORS="https://github.com/rui314/mold/archive/refs/tags"
 CT_MOLD_ARCHIVE_FILENAME="v@{version}"
 CT_MOLD_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -805,7 +803,64 @@ CT_ALL_LINKER_CHOICES="MOLD"
 # Debug facilities
 #
 # CT_DEBUG_DUMA is not set
-# CT_DEBUG_GDB is not set
+CT_DEBUG_GDB=y
+CT_DEBUG_GDB_PKG_KSYM="GDB"
+CT_GDB_DIR_NAME="gdb"
+CT_GDB_PKG_NAME="gdb"
+CT_GDB_SRC_RELEASE=y
+# CT_GDB_SRC_DEVEL is not set
+# CT_GDB_SRC_CUSTOM is not set
+CT_GDB_PATCH_GLOBAL=y
+# CT_GDB_PATCH_BUNDLED is not set
+# CT_GDB_PATCH_LOCAL is not set
+# CT_GDB_PATCH_BUNDLED_LOCAL is not set
+# CT_GDB_PATCH_LOCAL_BUNDLED is not set
+# CT_GDB_PATCH_NONE is not set
+CT_GDB_PATCH_ORDER="global"
+CT_GDB_V_16=y
+# CT_GDB_V_15 is not set
+# CT_GDB_V_14 is not set
+# CT_GDB_V_13 is not set
+# CT_GDB_V_12 is not set
+# CT_GDB_V_11 is not set
+# CT_GDB_V_10 is not set
+# CT_GDB_V_9 is not set
+# CT_GDB_V_8_3 is not set
+CT_GDB_VERSION="16.3"
+CT_GDB_MIRRORS="$(CT_Mirrors GNU gdb) $(CT_Mirrors sourceware gdb/releases)"
+CT_GDB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
+CT_GDB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
+CT_GDB_ARCHIVE_FORMATS=".tar.xz .tar.gz"
+CT_GDB_SIGNATURE_FORMAT=""
+CT_GDB_later_than_16=y
+CT_GDB_16_or_later=y
+CT_GDB_later_than_15=y
+CT_GDB_15_or_later=y
+CT_GDB_later_than_14=y
+CT_GDB_14_or_later=y
+CT_GDB_later_than_13=y
+CT_GDB_13_or_later=y
+CT_GDB_later_than_12=y
+CT_GDB_12_or_later=y
+CT_GDB_later_than_11=y
+CT_GDB_11_or_later=y
+CT_GDB_later_than_10=y
+CT_GDB_10_or_later=y
+CT_GDB_later_than_8_3=y
+CT_GDB_8_3_or_later=y
+CT_GDB_CROSS=y
+# CT_GDB_CROSS_STATIC is not set
+# CT_GDB_CROSS_SIM is not set
+CT_GDB_CROSS_PYTHON=y
+CT_GDB_CROSS_PYTHON_BINARY=""
+CT_GDB_CROSS_EXTRA_CONFIG_ARRAY=""
+# CT_GDB_NATIVE is not set
+CT_GDB_GDBSERVER=y
+# CT_GDB_NATIVE_BUILD_IPA_LIB is not set
+# CT_GDB_NATIVE_STATIC is not set
+# CT_GDB_NATIVE_STATIC_LIBSTDCXX is not set
+CT_GDB_GDBSERVER_TOPLEVEL=y
+CT_GDB_CC_LD_LIBTOOL=y
 # CT_DEBUG_LTRACE is not set
 # CT_DEBUG_STRACE is not set
 CT_ALL_DEBUG_CHOICES="DUMA GDB LTRACE STRACE"
@@ -816,7 +871,29 @@ CT_ALL_DEBUG_CHOICES="DUMA GDB LTRACE STRACE"
 #
 # CT_COMPLIBS_CHECK is not set
 # CT_COMP_LIBS_CLOOG is not set
-# CT_COMP_LIBS_EXPAT is not set
+CT_COMP_LIBS_EXPAT=y
+CT_COMP_LIBS_EXPAT_PKG_KSYM="EXPAT"
+CT_EXPAT_DIR_NAME="expat"
+CT_EXPAT_PKG_NAME="expat"
+CT_EXPAT_SRC_RELEASE=y
+# CT_EXPAT_SRC_DEVEL is not set
+# CT_EXPAT_SRC_CUSTOM is not set
+CT_EXPAT_PATCH_GLOBAL=y
+# CT_EXPAT_PATCH_BUNDLED is not set
+# CT_EXPAT_PATCH_LOCAL is not set
+# CT_EXPAT_PATCH_BUNDLED_LOCAL is not set
+# CT_EXPAT_PATCH_LOCAL_BUNDLED is not set
+# CT_EXPAT_PATCH_NONE is not set
+CT_EXPAT_PATCH_ORDER="global"
+CT_EXPAT_V_2_7=y
+# CT_EXPAT_V_2_6 is not set
+# CT_EXPAT_V_2_5 is not set
+CT_EXPAT_VERSION="2.7.1"
+CT_EXPAT_MIRRORS="http://downloads.sourceforge.net/project/expat/expat/${CT_EXPAT_VERSION} https://github.com/libexpat/libexpat/releases/download/R_${CT_EXPAT_VERSION//./_}"
+CT_EXPAT_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
+CT_EXPAT_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
+CT_EXPAT_ARCHIVE_FORMATS=".tar.xz .tar.lz .tar.bz2 .tar.gz"
+CT_EXPAT_SIGNATURE_FORMAT=""
 CT_COMP_LIBS_GETTEXT=y
 CT_COMP_LIBS_GETTEXT_PKG_KSYM="GETTEXT"
 CT_GETTEXT_DIR_NAME="gettext"
@@ -1074,6 +1151,7 @@ CT_GMP_NEEDED=y
 CT_MPFR_NEEDED=y
 CT_ISL_NEEDED=y
 CT_MPC_NEEDED=y
+CT_EXPAT_NEEDED=y
 CT_NCURSES_NEEDED=y
 CT_ZLIB_NEEDED=y
 CT_ZSTD_NEEDED=y
@@ -1083,6 +1161,7 @@ CT_GMP=y
 CT_MPFR=y
 CT_ISL=y
 CT_MPC=y
+CT_EXPAT=y
 CT_NCURSES=y
 CT_ZLIB=y
 CT_ZSTD=y
@@ -1112,6 +1191,7 @@ CT_MAKE_PATCH_GLOBAL=y
 # CT_MAKE_PATCH_LOCAL_BUNDLED is not set
 # CT_MAKE_PATCH_NONE is not set
 CT_MAKE_PATCH_ORDER="global"
+# CT_MAKE_V_4_4 is not set
 CT_MAKE_V_4_3=y
 CT_MAKE_VERSION="4.3"
 CT_MAKE_MIRRORS="$(CT_Mirrors GNU make)"
@@ -1121,7 +1201,6 @@ CT_MAKE_ARCHIVE_FORMATS=".tar.lz .tar.gz"
 CT_MAKE_SIGNATURE_FORMAT="packed/.sig"
 CT_MAKE_4_4_or_older=y
 CT_MAKE_older_than_4_4=y
-CT_MAKE_REQUIRE_older_than_4_4=y
 CT_MAKE_4_3_or_later=y
 CT_MAKE_4_3_or_older=y
 CT_MAKE_GMAKE_SYMLINK=y
