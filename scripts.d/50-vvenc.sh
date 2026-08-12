@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/fraunhoferhhi/vvenc.git"
-SCRIPT_COMMIT="182ad990a15c5300702202f184b332b7d146a841"
+SCRIPT_COMMIT="7d60406c66fa1659b8df74dd8d62bc41d3c90157"
 
 ffbuild_enabled() {
     [[ $TARGET != *32 ]] || return -1

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/zeromq/libzmq.git"
-SCRIPT_COMMIT="b946c18f676760387276cd095bbdd8c0e18c09bf"
+SCRIPT_COMMIT="2e8a6ccb414ca79636392604893c79c3b0d00dc4"
 
 ffbuild_enabled() {
     return 0

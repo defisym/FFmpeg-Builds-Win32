@@ -52,7 +52,7 @@ for STAGE in scripts.d/*.sh scripts.d/*/*.sh; do
 
 		eval "set -e; \$STG"
 
-		tar cpJf "\$TGT.tmp" .
+		tar -I "xz -T0" -cpf "\$TGT.tmp" .
 		mv "\$TGT.tmp" "\$TGT"
 		rm -f "/dldir/\${DLNAME}.tar.xz"
 		ln -s "\${DLNAME}_\${DLHASH}.tar.xz" "/dldir/\${DLNAME}.tar.xz"

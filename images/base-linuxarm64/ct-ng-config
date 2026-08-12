@@ -339,10 +339,10 @@ CT_LINUX_V_4_18=y
 # CT_LINUX_V_3_12 is not set
 # CT_LINUX_V_3_10 is not set
 CT_LINUX_VERSION="4.18.20"
-CT_LINUX_MIRRORS="$(CT_Mirrors kernel.org linux ${CT_LINUX_VERSION})"
-CT_LINUX_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
+CT_LINUX_MIRRORS="https://github.com/gregkh/linux/archive/refs/tags"
+CT_LINUX_ARCHIVE_FILENAME="v@{version}"
 CT_LINUX_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
-CT_LINUX_ARCHIVE_FORMATS=".tar.xz .tar.gz"
+CT_LINUX_ARCHIVE_FORMATS=".tar.gz"
 CT_LINUX_SIGNATURE_FORMAT="unpacked/.sign"
 CT_LINUX_5_19_or_older=y
 CT_LINUX_older_than_5_19=y

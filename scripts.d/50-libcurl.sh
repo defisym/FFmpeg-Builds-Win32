@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/curl/curl.git"
-SCRIPT_COMMIT="7806fb36c530027d7367e22e9299d0dde6ae5bb0"
+SCRIPT_COMMIT="ecaa344a7a17874ff0c6e5717489e8f9033c4d5c"
 
 ffbuild_depends() {
     echo base

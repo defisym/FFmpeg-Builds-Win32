@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/mesa/drm.git"
-SCRIPT_COMMIT="b8b7c57c00954b22ac182543602bd8f654ea1c30"
+SCRIPT_COMMIT="35c7c536d5d1c0124a416a531df4432508d7d2f1"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -37,7 +37,7 @@ ffbuild_dockerbuild() {
     fi
 
     export CFLAGS="$RAW_CFLAGS"
-    export LDFLAFS="$RAW_LDFLAGS"
+    export LDFLAGS="$RAW_LDFLAGS"
 
     meson "${myconf[@]}" ..
     ninja -j$(nproc)
