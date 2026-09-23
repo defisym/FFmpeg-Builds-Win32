@@ -1,7 +1,12 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://github.com/ultravideo/kvazaar.git"
-SCRIPT_COMMIT="2b06691bb5844404c0e703f12a5d7b0fee914ec7"
+SCRIPT_REPO="https://github.com/glennrp/libpng.git"
+SCRIPT_COMMIT="964b4135949703b705fc760fc3fb546b86e5ab47"
+
+ffbuild_depends() {
+    echo base
+    echo zlib
+}
 
 ffbuild_enabled() {
     return 0
@@ -26,18 +31,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    export CPPFLAGS="$CPPFLAGS -I$FFBUILD_PREFIX/include"
+
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install DESTDIR="$FFBUILD_DESTDIR"
-
-    echo "Cflags.private: -DKVZ_STATIC_LIB" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/kvazaar.pc
-    echo "Libs.private: -lpthread" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/kvazaar.pc
-}
-
-ffbuild_configure() {
-    echo --enable-libkvazaar
-}
-
-ffbuild_unconfigure() {
-    echo --disable-libkvazaar
 }

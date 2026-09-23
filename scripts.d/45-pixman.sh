@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://github.com/fribidi/fribidi.git"
-SCRIPT_COMMIT="4c914a92e94a9fe4f30ae83a1130099841566448"
+SCRIPT_REPO="https://gitlab.freedesktop.org/pixman/pixman.git"
+SCRIPT_COMMIT="96c04d1b87934dc4b9396197a2dff737698ab310"
 
 ffbuild_enabled() {
     return 0
@@ -14,9 +14,11 @@ ffbuild_dockerbuild() {
         --prefix="$FFBUILD_PREFIX"
         --buildtype=release
         --default-library=static
-        -Dbin=false
-        -Ddocs=false
-        -Dtests=false
+        -Dgtk=disabled
+        -Dlibpng=disabled
+        -Dopenmp=disabled
+        -Dtests=disabled
+        -Ddemos=disabled
     )
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
@@ -28,17 +30,7 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    meson "${myconf[@]}" ..
+    meson setup "${myconf[@]}" ..
     ninja -j$(nproc)
     DESTDIR="$FFBUILD_DESTDIR" ninja install
-
-    sed -i 's/Cflags:/Cflags: -DFRIBIDI_LIB_STATIC/' "$FFBUILD_DESTPREFIX"/lib/pkgconfig/fribidi.pc
-}
-
-ffbuild_configure() {
-    echo --enable-libfribidi
-}
-
-ffbuild_unconfigure() {
-    echo --disable-libfribidi
 }

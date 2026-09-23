@@ -1,12 +1,7 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://github.com/glennrp/libpng.git"
-SCRIPT_COMMIT="d1d0abeffede1cc898ddc3d0e600839cf026d749"
-
-ffbuild_depends() {
-    echo base
-    echo zlib
-}
+SCRIPT_REPO="https://github.com/PCRE2Project/pcre2.git"
+SCRIPT_COMMIT="09eb19dc1102b34e7557408f33318364cb97d2b0"
 
 ffbuild_enabled() {
     return 0
@@ -20,6 +15,14 @@ ffbuild_dockerbuild() {
         --disable-shared
         --enable-static
         --with-pic
+        --enable-pcre2-8
+        --enable-unicode
+        --disable-pcre2-16
+        --disable-pcre2-32
+        --disable-pcre2grep-libz
+        --disable-pcre2grep-libbz2
+        --disable-pcre2test-libedit
+        --disable-pcre2test-libreadline
     )
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
@@ -30,8 +33,6 @@ ffbuild_dockerbuild() {
         echo "Unknown target"
         return -1
     fi
-
-    export CPPFLAGS="$CPPFLAGS -I$FFBUILD_PREFIX/include"
 
     ./configure "${myconf[@]}"
     make -j$(nproc)

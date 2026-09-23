@@ -2,7 +2,7 @@
 
 # Source
 SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
-SCRIPT_COMMIT="5ea8e9facd013b815f5f29f20ef26a566319a3de"
+SCRIPT_COMMIT="57b595039040eaa15bece85b7cc71d952281b269"
 
 # Mirror
 # SCRIPT_REPO="https://github.com/mingw-w64/mingw-w64.git"
@@ -40,6 +40,11 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
+    # Force the SSP initialization to happen with the highest priorits.
+    # Otherwise other static initializers might run before it, and crash.
+    # Relies on the toolchain not providing its own libssp.
+    sed -zi 's/__constructor__\s*)/__constructor__(0))/g; t; q1' mingw-w64-crt/ssp/stack_chk_guard.c
+
     if [[ -z "$COMPILER_SYSROOT" ]]; then
         COMPILER_SYSROOT="$(${CC} -print-sysroot)/usr/${FFBUILD_TOOLCHAIN}"
     fi
