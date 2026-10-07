@@ -12,6 +12,7 @@ ffbuild_depends() {
     echo xz
     echo fonts
     echo lcevcdec
+    echo lcms2
     echo libvorbis
     echo opencl
     echo pulseaudio
@@ -67,6 +68,7 @@ ffbuild_depends() {
     echo twolame
     echo uavs3d
     echo vaapi
+    echo vapoursynth
     echo vidstab
     echo vvenc
     echo whisper
