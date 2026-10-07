@@ -55,8 +55,6 @@ jobs:
         include:
           - runner: ubuntu-latest
             tag_suffix: ''
-          - runner: ubuntu-26.04-arm
-            tag_suffix: -arm
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
